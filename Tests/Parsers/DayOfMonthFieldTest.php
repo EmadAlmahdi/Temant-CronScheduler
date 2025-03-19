@@ -86,21 +86,20 @@ class DayOfMonthFieldTest extends TestCase
         $this->assertSame('2025-03-04', $this->getNearestWeekdayDate(2025, 3, 4)->format('Y-m-d')); // Tuesday
 
         // Test weekends (Saturday and Sunday should return the closest weekday)
-        // Saturday should move to Friday (move backward first)
-        $this->assertSame('2025-03-07', $this->getNearestWeekdayDate(2025, 3, 7)->format('Y-m-d')); // Saturday
-        $this->assertSame('2025-03-07', $this->getNearestWeekdayDate(2025, 3, 7)->format('Y-m-d')); // Nearest weekday is Friday (moving backward)
 
-        // Sunday should move to Monday (move forward)
-        $this->assertSame('2025-03-08', $this->getNearestWeekdayDate(2025, 3, 8)->format('Y-m-d')); // Sunday
-        $this->assertSame('2025-03-09', $this->getNearestWeekdayDate(2025, 3, 8)->format('Y-m-d')); // Nearest weekday is Monday (moving forward)
+        // Saturday (March 8, 2025) should move to Friday (March 7, 2025)
+        $this->assertSame('2025-03-07', $this->getNearestWeekdayDate(2025, 3, 8)->format('Y-m-d'));
+
+        // Sunday (March 9, 2025) should move to Monday (March 10, 2025)
+        $this->assertSame('2025-03-10', $this->getNearestWeekdayDate(2025, 3, 9)->format('Y-m-d'));
 
         // Test edge cases (first and last days of the month)
-        $this->assertSame('2025-03-01', $this->getNearestWeekdayDate(2025, 3, 1)->format('Y-m-d')); // First day of the month (Saturday)
-        $this->assertSame('2025-03-02', $this->getNearestWeekdayDate(2025, 3, 1)->format('Y-m-d')); // Nearest weekday is Monday (moving forward)
 
-        // Last day of the month (30th March - Sunday, 31st March - Monday)
-        $this->assertSame('2025-03-31', $this->getNearestWeekdayDate(2025, 3, 31)->format('Y-m-d')); // Monday (already a weekday)
-        $this->assertSame('2025-03-30', $this->getNearestWeekdayDate(2025, 3, 30)->format('Y-m-d')); // Sunday should move to Friday (move backward first)
+        // Saturday (March 1, 2025) should move to Friday (February 28, 2025)
+        $this->assertSame('2025-02-28', $this->getNearestWeekdayDate(2025, 3, 1)->format('Y-m-d'));
+
+        // Monday (March 31, 2025) should remain unchanged
+        $this->assertSame('2025-03-31', $this->getNearestWeekdayDate(2025, 3, 31)->format('Y-m-d'));
     }
 
     private function getNearestWeekdayDate(int $year, int $month, int $day): DateTimeInterface

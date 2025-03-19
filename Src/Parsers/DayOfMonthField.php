@@ -43,29 +43,21 @@ class DayOfMonthField extends AbstractField
      *
      * @throws RuntimeException If the date creation fails.
      */
-    public static function getNearestWeekday(int $currentYear, int $currentMonth, int $targetDay): DateTimeInterface
+    public static function getNearestWeekday(int $year, int $month, int $day): DateTimeInterface
     {
-        $target = DateTime::createFromFormat('Y-m-d', sprintf('%04d-%02d-%02d', $currentYear, $currentMonth, $targetDay));
+        $date = DateTimeImmutable::createFromFormat('Y-m-d', sprintf('%04d-%02d-%02d', $year, $month, $day));
 
-        if (!$target) {
-            throw new RuntimeException("Invalid date: $currentYear-$currentMonth-$targetDay");
+        if ($date === false) {
+            throw new RuntimeException("Invalid date: $year-$month-$day");
         }
 
-        $currentWeekday = (int) $target->format('N'); // Weekday (1=Monday, 7=Sunday)
+        // Weekday (1 = Monday, 7 = Sunday)
+        $weekday = (int) $date->format('N');
 
-        // If already a weekday, return it
-        if ($currentWeekday < 6) {
-            return $target;
-        }
+        // Adjust only if it's Saturday (6) or Sunday (7)
+        $adjustments = [6 => '-1 day', 7 => '+1 day'];
 
-        // Move backward if it's a weekend (Friday to Thursday, Saturday to Friday)
-        if ($currentWeekday == 6) {
-            // Saturday (6) -> Friday (5)
-            return $target->modify('-1 day');
-        }
-
-        // Sunday (7) -> Monday (1)
-        return $target->modify('+1 day');
+        return $date->modify($adjustments[$weekday] ?? '0 day');
     }
 
     /**
