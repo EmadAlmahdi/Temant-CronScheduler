@@ -43,12 +43,12 @@ class DayOfMonthField extends AbstractField
      *
      * @throws RuntimeException If the date creation fails.
      */
-    public static function getNearestWeekday(int $year, int $month, int $day): DateTimeInterface
+    public static function getNearestWeekday(int $currentYear, int $currentMonth, int $targetDay): DateTimeInterface
     {
-        $date = DateTimeImmutable::createFromFormat('Y-m-d', sprintf('%04d-%02d-%02d', $year, $month, $day));
+        $date = DateTimeImmutable::createFromFormat('Y-m-d', sprintf('%04d-%02d-%02d', $currentYear, $currentMonth, $targetDay));
 
         if ($date === false) {
-            throw new RuntimeException("Invalid date: $year-$month-$day");
+            throw new RuntimeException("Invalid date: $currentYear-$currentMonth-$targetDay");
         }
 
         // Weekday (1 = Monday, 7 = Sunday)

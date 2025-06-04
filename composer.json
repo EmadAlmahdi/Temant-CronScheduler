@@ -14,5 +14,9 @@
     "require": {
         "temant/timer": "^1.0",
         "opis/closure": "^4.3"
+    },
+    "scripts": {
+        "analyse": "./vendor/bin/phpstan",
+        "test": "./vendor/bin/phpunit"
     }
 }
