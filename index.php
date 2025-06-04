@@ -27,7 +27,5 @@ $manager->addJob(new CronJob(
     }
 ));
 
-// dd($manager->getJob("Log Time Command")->getSchedule()->getNextRunDate( ));
-
 // Execute scheduled jobs
 $manager->runJobs();

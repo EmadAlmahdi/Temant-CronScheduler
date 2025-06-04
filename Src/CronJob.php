@@ -3,10 +3,10 @@
 namespace Temant\ScheduleManager;
 
 use Closure;
+use Cron\CronExpression;
 use RuntimeException;
 use Temant\ScheduleManager\Adapters\AdapterInterface;
-use Temant\ScheduleManager\Enums\Level;
-use Temant\ScheduleManager\Parsers\CronExpression; 
+use Temant\ScheduleManager\Enums\Level; 
 use Temant\Timer\Timer;
 use Throwable;
 
